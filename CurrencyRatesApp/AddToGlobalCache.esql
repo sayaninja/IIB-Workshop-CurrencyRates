@@ -1,0 +1,25 @@
+
+CREATE COMPUTE MODULE AddToCache
+
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE cachingResult BOOLEAN;
+		DECLARE currency CHARACTER;
+		DECLARE rate CHARACTER;
+		
+		SET currency = InputRoot.XMLNSC.item.currency;
+		SET rate = InputRoot.XMLNSC.item.rate;
+		SET cachingResult = addToCache('ratesGlobalMap', currency, rate);
+
+		IF cachingResult THEN
+			SET OutputRoot.XMLNSC.Output.Result = 'Cache has been refreshed successfully';
+		ELSE
+			SET OutputRoot.XMLNSC.Output.Result = 'Error encountered while refreshing cache';
+		END IF;
+		RETURN TRUE;
+	END;
+END MODULE;
+
+CREATE PROCEDURE addToCache(IN globalMapName CHARACTER, IN currencyKey CHARACTER, IN rateValue CHARACTER)
+RETURNS BOOLEAN LANGUAGE JAVA EXTERNAL NAME "Utilities.CacheUtil.addToCache";
+		

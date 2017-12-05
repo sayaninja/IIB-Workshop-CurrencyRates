@@ -1,0 +1,13 @@
+
+
+CREATE COMPUTE MODULE SetTimeout
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputLocalEnvironment.TimeoutRequest.Action = 'SET';
+        SET OutputLocalEnvironment.TimeoutRequest.Identifier = 'NB_TIMEOUT';
+        SET OutputLocalEnvironment.TimeoutRequest.Interval = InputRoot.XMLNSC.Interval;
+        SET OutputLocalEnvironment.TimeoutRequest.Count = -1;
+        SET OutputLocalEnvironment.TimeoutRequest.IgnoreMissed = 'TRUE';
+		RETURN TRUE;
+	END;
+END MODULE;

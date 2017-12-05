@@ -1,0 +1,30 @@
+
+CREATE COMPUTE MODULE getRate_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE rateValue CHARACTER;
+		DECLARE currency CHARACTER;
+		DECLARE removeResult BOOLEAN;
+		SET currency = InputLocalEnvironment.HTTP.Input.QueryString.currency;
+		SET rateValue = getCacheRate('ratesGlobalMap', currency);
+		SET OutputRoot.XML.rate = rateValue;
+		SET removeResult = removeFromCache('ratesGlobalMap', currency);
+		RETURN TRUE;
+	END;
+END MODULE;
+
+CREATE PROCEDURE getCacheRate(IN globalMapName CHARACTER, IN currencyKey CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE rateValue CHARACTER;
+	SET rateValue = getCacheValueFromGlobalMap(globalMapName,currencyKey);
+	IF (TRIM(rateValue) IS NULL OR TRIM(rateValue) ='' ) THEN
+		THROW USER EXCEPTION MESSAGE 2999 VALUES('Failed to retrieve cache') ;
+	END IF;
+	RETURN rateValue;	
+END;
+
+CREATE PROCEDURE getCacheValueFromGlobalMap(IN chrMapName CHARACTER, IN chrKey CHARACTER)
+RETURNS CHARACTER LANGUAGE JAVA EXTERNAL NAME "Utilities.CacheUtil.getValue";
+
+CREATE PROCEDURE removeFromCache(IN mapName CHARACTER, IN rateKey CHARACTER)
+RETURNS BOOLEAN LANGUAGE JAVA EXTERNAL NAME "Utilities.CacheUtil.removeFromCache";

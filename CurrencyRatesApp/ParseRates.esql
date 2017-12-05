@@ -1,0 +1,16 @@
+
+
+CREATE COMPUTE MODULE ParseRates
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		FOR item_item AS InputRoot.XMLNSC.rates.item[] DO
+			SET OutputRoot.Properties = InputRoot.Properties;
+			SET OutputRoot.XMLNSC.item.currency = item_item.title;
+			SET OutputRoot.XMLNSC.item.rate = item_item.description;
+			
+			PROPAGATE TO TERMINAL 'out';
+		END FOR;
+		
+		RETURN FALSE;
+	END;
+END MODULE;

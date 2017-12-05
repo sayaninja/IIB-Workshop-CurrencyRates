@@ -1,0 +1,9 @@
+
+
+CREATE COMPUTE MODULE GenerateNatBankURL
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'http://www.nationalbank.kz/rss/get_rates.cfm?fdate=' || CAST(CURRENT_DATE AS CHARACTER FORMAT 'dd.MM.yyyy') || '&switch=russian';
+		RETURN TRUE;
+	END;
+END MODULE;

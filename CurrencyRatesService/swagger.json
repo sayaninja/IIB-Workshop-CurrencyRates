@@ -1,0 +1,33 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "CurrencyRatesService",
+    "version" : "1.0.0",
+    "description" : "CurrencyRatesService"
+  },
+  "paths" : {
+    "/rate" : {
+      "get" : {
+        "operationId" : "getRate",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve rate",
+        "parameters" : [ {
+          "name" : "currency",
+          "in" : "query",
+          "type" : "string",
+          "required" : true
+        } ]
+      }
+    }
+  },
+  "basePath" : "/currencyratesservice/v1",
+  "definitions" : { }
+}
