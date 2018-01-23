@@ -6,9 +6,9 @@
     "description" : "CurrencyRatesService"
   },
   "paths" : {
-    "/rate" : {
+    "/getRate" : {
       "get" : {
-        "operationId" : "getRate",
+        "operationId" : "getGetRate",
         "responses" : {
           "200" : {
             "description" : "The operation was successful.",
@@ -18,16 +18,9 @@
           }
         },
         "produces" : [ "application/json" ],
-        "description" : "Retrieve rate",
-        "parameters" : [ {
-          "name" : "currency",
-          "in" : "query",
-          "type" : "string",
-          "required" : true
-        } ]
+        "description" : "Retrieve getRate"
       }
     }
   },
-  "basePath" : "/currencyratesservice/v1",
-  "definitions" : { }
+  "basePath" : "/currencyratesservice/v1"
 }
